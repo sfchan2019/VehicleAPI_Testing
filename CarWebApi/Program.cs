@@ -21,7 +21,6 @@ namespace CarWebApi
     public class SingleCarApiRequest
     {
         public RestClient Client { get; set; }
-        private string base_url;
         public JObject SingleResponseObject { get; set; }
 
         public SingleCarApiRequest()
@@ -30,15 +29,15 @@ namespace CarWebApi
             Client.BaseUrl = new Uri("https://vpic.nhtsa.dot.gov/api/vehicles");
         }
 
-        //mercedes
+        //Handle No internet Exception?
         public void RequestVehicleTypesForMake(string brand)
         {
             brand = brand.ToLower();
             RestRequest request = new RestRequest();
-            request.AddHeader("Content-Type", "application/json");
             request.Resource = $"/GetVehicleTypesForMake/{brand}?format=json";
             IRestResponse response = Client.Execute(request);
             SingleResponseObject = JObject.Parse(response.Content);
+            
         }
     }
 }
