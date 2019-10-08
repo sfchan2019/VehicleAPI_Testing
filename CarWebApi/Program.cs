@@ -22,6 +22,7 @@ namespace CarWebApi
     {
         public RestClient Client { get; set; }
         public JObject SingleResponseObject { get; set; }
+        public IRestResponse Response { get; set; }
 
         public SingleCarApiRequest()
         {
@@ -35,9 +36,14 @@ namespace CarWebApi
             brand = brand.ToLower();
             RestRequest request = new RestRequest();
             request.Resource = $"/GetVehicleTypesForMake/{brand}?format=json";
-            IRestResponse response = Client.Execute(request);
-            SingleResponseObject = JObject.Parse(response.Content);
-            
+            //IRestResponse response = Client.Execute(request);
+            Response = Client.Execute(request);
+            SingleResponseObject = JObject.Parse(Response.Content);
+
+            foreach (RestSharp.Parameter s in Response.Headers)
+            {
+                Console.WriteLine(s.ToString());
+            }
         }
     }
 }
