@@ -12,6 +12,9 @@ namespace CarWebApi
     {
         static void Main(string[] args)
         {
+            SingleCarApiRequest carAPI = new SingleCarApiRequest();
+            carAPI.RequestVehicleTypesForMake("mercedes");
+            Console.WriteLine(carAPI.SingleResponseObject.ToString()); 
         }
     }
 
@@ -33,7 +36,7 @@ namespace CarWebApi
             brand = brand.ToLower();
             RestRequest request = new RestRequest();
             request.AddHeader("Content-Type", "application/json");
-            request.Resource = $"/GetVehicleTypesForMake{brand}?format=json";
+            request.Resource = $"/GetVehicleTypesForMake/{brand}?format=json";
             IRestResponse response = Client.Execute(request);
             SingleResponseObject = JObject.Parse(response.Content);
         }
